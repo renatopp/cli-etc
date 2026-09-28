@@ -13,11 +13,14 @@ Consider that we're watching `**/*.png` inside `./assets`, and multiple files ha
 
 `etc [patterns...] <options...>`, where patterns is a variadic list of globs, and options:
 
-- `--base, -b <string>` commands to be run on base target
-- `--dir, -d <string>` commands to be run on dir target
-- `--file, -f <string>` commands to be run on file target
+- `--base, -b <string>` the base directory, PWD as default
+- `--per, -p <base|dir|file>` target of the execution
+- `--exec, -x <string>` command to run
 - `--debounce, -D <int>` window of accumulating changes before execution, in milliseconds, default 500
 - `--initial, -i` boolean flag to execute upon first call
+- `--exclude, -e <pattern>` patterns to be ignored, repeated allowed
+- `--restart, -r` boolean to allow kill long running processes upon the events, then re-executing it
+- `--parallel, -P <int>` max parallel execution, default 4
 
 Commands will be executed internally as `bash -c <command> <pwd> <base/dir/file changed>`, so user can use $1 to access the target file or folder.
 
@@ -39,15 +42,19 @@ func main() {
     Rules: []watcher.Rule{
       {
         Patterns:    []string{"src/assets/**/*.png"},
-        BaseCommand: func(ev watcher.BaseEvent) { ... },
-        DirCommand:  func(ev watcher.DirEvent) { ... },
-        FileCommand: func(ev watcher.FileEvent) { ... },
+        Exclude: 		 []string{"..."},
+        Context:     watcher.Base,
+        Command:     func(ctx context.Context, ev watcher.Event) { ... },
         Debounce:    500 * time.Millisecond,
+        ...
       },
       {
         Patterns:    []string{"public/**/*.jpg"},
-        FileCommand: func(ev watcher.FileEvent) { ... },
+        Context: 		 watcher.File,
+        Command: 		 func(ctx context.Context, ev watcher.Event) { ... },
         Debounce:    1000 * time.Millisecond,
+        Restart:     true,
+        ...
       },
     },
   })
@@ -61,5 +68,6 @@ Notes:
 - Each `Rule` behaves independently, with its own debounce window and commands.
 - A file event may match multiple rules, in which case all matching rules' commands are triggered.
 - `Options.Initial` sets the default for all rules, but each `Rule` may override it with its own `Initial` field.
-- Rules can be added or removed dynamically via `w.AddRule(rule)` and `w.RemoveRule(rule)` while the watcher is running.
+- Rules can be added or removed dynamically via `id = w.AddRule(rule)` and `w.RemoveRule(id)` while the watcher is running.
 - If multiple files change in the same directory within debounce window, `base` and `dir` commands will execute only once
+- Restart on per file or dir context, restart only the file-targeted or dir-target processes.
