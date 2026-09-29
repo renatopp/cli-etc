@@ -1,0 +1,10 @@
+github.com/bmatcuk/doublestar/v4 v4.10.0 h1:zU9WiOla1YA122oLM6i4EXvGW62DvKZVxIe6TYWexEs=
+github.com/bmatcuk/doublestar/v4 v4.10.0/go.mod h1:xBQ8jztBU6kakFMg+8WGxn0c6z1fTSPVIjEY1Wr7jzc=
+github.com/fsnotify/fsnotify v1.9.0 h1:2Ml+OJNzbYCTzsxtv8vKSFD9PbJjmhYF14k/jKC7S9k=
+github.com/fsnotify/fsnotify v1.9.0/go.mod h1:8jBTzvmWwFyi3Pb8djgCCO5IBqzKJ/Jwo8TRcHyHii0=
+github.com/renatopp/go-cli v0.6.2 h1:b9RTSriDfkmYHrpm+OXJACelTeQiJB5pJ9fF8DjPljI=
+github.com/renatopp/go-cli v0.6.2/go.mod h1:jE5zjrOlCvEEAUH4paBs7dxLrBw7HO+1XQQU6Ge0P7Q=
+github.com/renatopp/go-x v0.3.0 h1:ZAXqKt+r6fBvIwAr5cWNLR2CQysmnw0cCSmG+f/gmm8=
+github.com/renatopp/go-x v0.3.0/go.mod h1:nMBtOibeWfVndqv4JlObKOIbXH6W5+z6FKC2fGu+b6U=
+golang.org/x/sys v0.13.0 h1:Af8nKPmuFypiUBjVoU9V20FiaFXOcuZI21p0ycVYYGE=
+golang.org/x/sys v0.13.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
