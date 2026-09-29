@@ -32,7 +32,7 @@ func main() {
 	cli.AutoHelp(true)
 	cli.Example("etc '**/*.go' -- go test ./...", "Run tests when any go file changes.")
 	cli.Example("etc -b assets -p dir '**/*.png' -- pack-atlas $1", "Pack each directory with changed images.")
-	cli.Example("etc -i -k '**/*.go' -- go run .", "Run and restart the program on changes.")
+	cli.Example("etc -i -k -p base '**/*.go' -- go run .", "Run and restart the program on changes.")
 
 	patterns := cli.Pos("patterns", "Glob patterns relative to base, ** supported.").AsVariadic().AsRequired()
 	base := cli.Flag("base", "b", "Base directory.").WithDefault(".")

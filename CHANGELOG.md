@@ -1,3 +1,8 @@
+# Unreleased
+
+- Adding `etcgo` CLI to build, run and restart Go programs on changes, keeping the last good version running on build errors
+- Adding Windows support to `Shell` and `Exec`, killing the process tree through a job object
+
 # v0.1.0 (2026-09-28)
 
 First Release

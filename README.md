@@ -12,6 +12,12 @@ To install `etc` CLI tool, just run:
 go install github.com/renatopp/cli-etc/cmd/etc@latest
 ```
 
+To install `etcgo`, the live reload for Go programs:
+
+```bash
+go install github.com/renatopp/cli-etc/cmd/etcgo@latest
+```
+
 To install as a library, use:
 
 ```bash
@@ -51,9 +57,36 @@ Commands are executed as `bash -c <command> <pwd> <target>`, so the target is ac
 
 - Run a program and restart it on changes:
 
-  `etc -i -k '**/*.go' -- go run .`
+  `etc -i -k -p base '**/*.go' -- go run .`
 
-Quote the command to prevent your shell from expanding `$1`.
+Quote the command to prevent your shell from expanding `$1`. On Windows, `bash` must be in the `PATH` (e.g. Git Bash).
+
+## etcgo Usage
+
+`etcgo [package] <options...> [-- args...]`
+
+Builds and runs the package (default `.`), rebuilding on changes to `**/*.go`, `go.mod` and `go.sum`. The program is only restarted when the build succeeds, so a compilation error keeps the last good version running. Tests, `.git`, `vendor`, `testdata` and `node_modules` are ignored. Arguments after `--` are passed to the program.
+
+| Option                    | Description                                                    |
+|---------------------------|----------------------------------------------------------------|
+| `--watch, -w <pattern>`   | Extra patterns to watch, repeatable.                           |
+| `--exclude, -e <pattern>` | Extra patterns to be ignored, repeatable.                      |
+| `--build, -B <flags>`     | Extra flags passed to `go build`.                              |
+| `--delay, -d <int>`       | Window of accumulating changes in milliseconds, default 500.   |
+
+- Run the package in the current directory:
+
+  `etcgo`
+
+- Run a specific package, passing arguments to it:
+
+  `etcgo ./cmd/server -- --port 8080`
+
+- Also restart on template changes, building with the race detector:
+
+  `etcgo -w '**/*.html' -B '-race'`
+
+The program is stopped with `SIGTERM` (`CTRL_BREAK` on Windows, received as `os.Interrupt` by Go programs) and killed after 5 seconds.
 
 ## Library Usage
 
@@ -84,4 +117,4 @@ Built-in commands:
 - `etc.Shell(cmd)` runs `bash -c <cmd>` with the target as `$1`.
 - `etc.Exec(name, args...)` runs the program directly, `{}` in args is replaced by the target.
 
-Kill is done by cancelling the command context, `Shell` and `Exec` kill the whole process group. Custom commands must honor it.
+Kill is done by cancelling the command context, `Shell` and `Exec` kill the whole process group (a job object on Windows). Custom commands must honor it.
