@@ -3,7 +3,7 @@ module github.com/renatopp/cli-etc
 go 1.27.1
 
 require (
-	github.com/renatopp/go-cli v0.6.2
+	github.com/renatopp/go-cli v0.7.0
 	github.com/renatopp/go-x v0.3.0
 	golang.org/x/sys v0.13.0
 )
